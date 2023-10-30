@@ -1,7 +1,7 @@
 {
-  "name": "antd-chrome-extension-boilerplate",
+  "name": "MFA",
   "version": "1.0.0",
-  "description": "使用 react + antd 开发 chrome-extension 的脚手架工程",
+  "description": "MFA",
   "scripts": {
     "start": "webpack serve --config ./config/webpack.dev.js",
     "build": "webpack --config ./config/webpack.prod.js",
@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "antd": "^4.16.3",
+    "copy-to-clipboard": "^3.3.3",
     "core-js": "^3.14.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

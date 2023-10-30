@@ -1,60 +1,49 @@
-import React, { Component } from 'react';
-import {
-    Form, Input, Button, Checkbox
-} from 'antd';
-import './Popup.scss';
-import { go } from '../chrome';
-
+import React, { Component } from "react";
+import copy from "copy-to-clipboard";
+import "./Popup.scss";
+import { go } from "../chrome";
+import { message } from "antd";
 export default class Popup extends Component {
+  state = {
+    name: WRAPPER_CLASS_NAME,
+  };
 
-    state = {
-        name: WRAPPER_CLASS_NAME
-    }
+  gotoPage() {
+    go("../html/view.html");
+  }
 
-    gotoPage() {
-        go('../html/view.html');
-    }
+  handleCopy = (str = "") => {
+    copy(str);
+    message.success("口令已复制到剪切板");
+  };
+  secretKeyArr = [
+    {
+      name: "admin",
+      tag: "xm",
+      key: "1231asdasdasdasdsaasas",
+    },
+    {
+      name: "admin12",
+      tag: "xma",
+      key: "1231asdasdasdasdsaasas",
+    },
+  ];
 
-    render() {
-        return (
-            <div className={`${WRAPPER_CLASS_NAME}`}>
-                <Form
-                    layout="Vertical"
-                    name="basic"
-                    className="basic-table"
-                    initialValues={{ remember: true }}
-                >
-                    <Form.Item
-                        label="Username"
-                        name="username"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Password"
-                        name="password"
-                        rules={[{ required: true, message: 'Please input your password!' }]}
-                    >
-                        <Input.Password />
-                    </Form.Item>
-
-                    <Form.Item name="remember" valuePropName="checked">
-                        <Checkbox>Remember me</Checkbox>
-                    </Form.Item>
-
-                    <Form.Item>
-                        <Button
-                            type="primary"
-                            onClick={() => { this.gotoPage(); }}
-                            className="form-button"
-                        >
-                            演示页面跳转
-                        </Button>
-                    </Form.Item>
-                </Form>
+  render() {
+    return (
+      <div className={`${WRAPPER_CLASS_NAME}`}>
+        <div className="token">令牌</div>
+        <div className="basic-card">
+          {this.secretKeyArr.map((item, index) => (
+            <div key={index} className="card">
+              <div className="title">{item.name}</div>
+              <div className="code" onClick={() => this.handleCopy(item.key)}>
+                112345
+              </div>
             </div>
-        );
-    }
+          ))}
+        </div>
+      </div>
+    );
+  }
 }

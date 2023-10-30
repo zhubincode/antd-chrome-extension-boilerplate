@@ -12,4 +12,4 @@ wrap-ansi/
 .vscode/
 .iml
 dist/*
-
+.DS_Store
