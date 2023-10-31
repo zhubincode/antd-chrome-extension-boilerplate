@@ -1,49 +1,74 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import copy from "copy-to-clipboard";
 import "./Popup.scss";
-import { go } from "../chrome";
 import { message } from "antd";
-export default class Popup extends Component {
-  state = {
-    name: WRAPPER_CLASS_NAME,
-  };
+import { getToken } from "./otp.js";
 
-  gotoPage() {
-    go("../html/view.html");
+const Popup = () => {
+  const [time, setTime] = useState(getRemainingTime());
+
+  // 获取剩余有效时间
+  function getRemainingTime() {
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+    const timestampRemainder = currentTimestamp % 30;
+    return 30 - timestampRemainder;
   }
 
-  handleCopy = (str = "") => {
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const newTime = getRemainingTime();
+      setTime(newTime);
+      if (newTime === 0) {
+        refresh();
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(timer); // 清除定时器以避免内存泄漏
+    };
+  }, []);
+
+  const handleCopy = (str = "") => {
     copy(str);
     message.success("口令已复制到剪切板");
   };
-  secretKeyArr = [
+
+  const getCode = (code) => {
+    return getToken(code, { timestamp: Date.now() });
+  };
+
+  const secretKeyArr = [
     {
       name: "admin",
       tag: "xm",
-      key: "1231asdasdasdasdsaasas",
+      key: "KYFB3ELA5ZNW37EITCNFHO5YNID7GV5B",
     },
     {
       name: "admin12",
       tag: "xma",
-      key: "1231asdasdasdasdsaasas",
+      key: "SDZLP5GIDOHHIJ6PFJQ2UT56U7PINFXY",
     },
   ];
 
-  render() {
-    return (
-      <div className={`${WRAPPER_CLASS_NAME}`}>
-        <div className="token">令牌</div>
-        <div className="basic-card">
-          {this.secretKeyArr.map((item, index) => (
-            <div key={index} className="card">
-              <div className="title">{item.name}</div>
-              <div className="code" onClick={() => this.handleCopy(item.key)}>
-                112345
-              </div>
+  return (
+    <div className={`${WRAPPER_CLASS_NAME}`}>
+      <div className="token">令牌 {time}</div>
+      <div className="basic-card">
+        {secretKeyArr.map((item, index) => (
+          <div key={index} className="card">
+            <div className="title">{item.name}</div>
+            <div
+              className="code"
+              key={time}
+              onClick={() => handleCopy(item.key)}
+            >
+              {getCode(item.key)}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+export default Popup;

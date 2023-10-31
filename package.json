@@ -48,6 +48,7 @@
     "antd": "^4.16.3",
     "copy-to-clipboard": "^3.3.3",
     "core-js": "^3.14.0",
+    "jssha": "^3.3.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "regenerator-runtime": "^0.13.7",
