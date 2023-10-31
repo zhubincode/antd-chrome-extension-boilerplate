@@ -16,6 +16,13 @@ body {
   width: 100%;
   background-color: #f1f4f9;
   border-radius: 4px;
+	position: relative;
+
+	.progress {
+		position: absolute;
+		bottom: -5px;
+		left: 0;
+	}
 
   .title {
     display: flex;
@@ -42,6 +49,7 @@ body {
 		justify-content: center;
 		cursor: pointer;
 		padding: 20px 0;
+		padding-bottom: 25px;
 	}
 }
 

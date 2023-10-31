@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import copy from "copy-to-clipboard";
 import "./Popup.scss";
-import { message } from "antd";
+import { message, Progress } from "antd";
 import { getToken } from "./otp.js";
 
 const Popup = () => {
@@ -60,10 +60,21 @@ const Popup = () => {
             <div
               className="code"
               key={time}
-              onClick={() => handleCopy(item.key)}
+              onClick={() => handleCopy(getCode(item.key))}
             >
               {getCode(item.key)}
             </div>
+            <Progress
+              strokeColor={{
+                from: "#108ee9",
+                to: "#87d068",
+              }}
+              className="progress"
+              strokeLinecap="butt"
+              percent={(time / 30) * 100}
+              status="active"
+              showInfo={false}
+            />
           </div>
         ))}
       </div>
