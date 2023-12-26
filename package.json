@@ -45,14 +45,20 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@moresec/utils": "^1.10.1",
+    "ahooks": "^3.7.8",
     "antd": "^4.16.3",
+    "axios": "^1.6.2",
     "copy-to-clipboard": "^3.3.3",
     "core-js": "^3.14.0",
+    "isomorphic-fetch": "^3.0.0",
     "jssha": "^3.3.1",
+    "path-to-regexp": "^6.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "regenerator-runtime": "^0.13.7",
-    "ssestream": "^1.1.0"
+    "ssestream": "^1.1.0",
+    "umi": "^4.0.87"
   },
   "browserslist": [
     "> 1%",

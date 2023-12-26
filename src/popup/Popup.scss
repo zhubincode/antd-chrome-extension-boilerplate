@@ -10,6 +10,8 @@ body {
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
+	height: 444px;
+	overflow: auto;
 }
 
 .card {

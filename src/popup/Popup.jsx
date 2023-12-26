@@ -3,10 +3,23 @@ import copy from "copy-to-clipboard";
 import "./Popup.scss";
 import { message, Progress } from "antd";
 import { getToken } from "./otp.js";
+import { useRequest } from "ahooks";
+
+import request from "../utils/request.js";
+
+export const getSystemInfo = (params) => {
+  return request("/mfa/list", {
+    params: params, // 确保这里正确地传递了params参数
+  });
+};
 
 const Popup = () => {
   const [time, setTime] = useState(getRemainingTime());
-
+  const { data, run } = useRequest(getSystemInfo, {
+    defaultParams: [{ page: 1, pageSize: 100 }],
+  });
+  const { results = [] } = data?.data?.data || {};
+  console.log(data);
   // 获取剩余有效时间
   function getRemainingTime() {
     const currentTimestamp = Math.floor(Date.now() / 1000);
@@ -18,9 +31,6 @@ const Popup = () => {
     const timer = setInterval(() => {
       const newTime = getRemainingTime();
       setTime(newTime);
-      if (newTime === 0) {
-        refresh();
-      }
     }, 1000);
 
     return () => {
@@ -29,6 +39,7 @@ const Popup = () => {
   }, []);
 
   const handleCopy = (str = "") => {
+    run({ page: 1, pageSize: 100 });
     copy(str);
     message.success("口令已复制到剪切板");
   };
@@ -54,15 +65,15 @@ const Popup = () => {
     <div className={`${WRAPPER_CLASS_NAME}`}>
       <div className="token">令牌 {time}</div>
       <div className="basic-card">
-        {secretKeyArr.map((item, index) => (
+        {results.map((item, index) => (
           <div key={index} className="card">
-            <div className="title">{item.name}</div>
+            <div className="title">{item.account}</div>
             <div
               className="code"
               key={time}
-              onClick={() => handleCopy(getCode(item.key))}
+              onClick={() => handleCopy(getCode(item.secret_key))}
             >
-              {getCode(item.key)}
+              {getCode(item.secret_key)}
             </div>
             <Progress
               strokeColor={{
