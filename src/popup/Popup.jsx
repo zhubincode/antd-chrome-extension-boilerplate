@@ -19,7 +19,7 @@ const Popup = () => {
     defaultParams: [{ page: 1, pageSize: 100 }],
   });
   const { results = [] } = data?.data?.data || {};
-  console.log(data);
+
   // 获取剩余有效时间
   function getRemainingTime() {
     const currentTimestamp = Math.floor(Date.now() / 1000);
@@ -39,7 +39,6 @@ const Popup = () => {
   }, []);
 
   const handleCopy = (str = "") => {
-    run({ page: 1, pageSize: 100 });
     copy(str);
     message.success("口令已复制到剪切板");
   };
@@ -47,19 +46,6 @@ const Popup = () => {
   const getCode = (code) => {
     return getToken(code, { timestamp: Date.now() });
   };
-
-  const secretKeyArr = [
-    {
-      name: "admin",
-      tag: "xm",
-      key: "KYFB3ELA5ZNW37EITCNFHO5YNID7GV5B",
-    },
-    {
-      name: "admin12",
-      tag: "xma",
-      key: "SDZLP5GIDOHHIJ6PFJQ2UT56U7PINFXY",
-    },
-  ];
 
   return (
     <div className={`${WRAPPER_CLASS_NAME}`}>
